@@ -6,7 +6,7 @@
 /*   By: antoine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 20:26:15 by antoine           #+#    #+#             */
-/*   Updated: 2021/12/20 23:12:33 by antoine          ###   ########.fr       */
+/*   Updated: 2021/12/20 23:45:56 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,5 +40,8 @@ int	main(int ac, char **av)
 	ft_fileisvalid(av[1], 1, 0, 0);
 	ft_fileisvalid(av[ac - 1], 0, 1, 0);
 	commands = ft_loadcommands(ac, av);
+	/* ______ WIP ______ */
+	(void)commands;
+	/* ______ WIP ______ */
 	return (0);
 }
