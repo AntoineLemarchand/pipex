@@ -29,9 +29,9 @@ RM			= rm -f
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror -g
+CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 
-CPPFLAGS	= -I/usr/includes  -Iminilibx/include/ -Iincludes
+CPPFLAGS	= -Iincludes
 
 %.o : %.c
 			$(call compiling,$<,$(<:.c=.o),0)
