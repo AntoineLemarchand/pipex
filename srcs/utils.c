@@ -6,7 +6,7 @@
 /*   By: antoine <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/20 21:00:54 by antoine           #+#    #+#             */
-/*   Updated: 2021/12/20 23:02:40 by antoine          ###   ########.fr       */
+/*   Updated: 2021/12/24 00:30:49 by antoine          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,28 +14,23 @@
 
 int	ft_puterror(int errno)
 {
-	write(1, " : ", 3);
+	write(1, "pipex: ", 7);
 	write(1, strerror(errno), ft_strlen(strerror(errno)));
 	write(1, "\n", 1);
 	exit(errno);
 }
 
-void	ft_fileisvalid(char *path, int r, int w, int x)
+void ft_freecommands(char **commands)
 {
-	if (access(path, F_OK) != 0)
+	char	**commandsbegin;
+
+	commandsbegin = commands;
+	while (*commands)
 	{
-		write(2, "pipex : ", 8);
-		write(2, path, ft_strlen(path));
-		ft_puterror(2);
+		free(*commands);
+		commands++;
 	}
-	else if ((r && access(path, R_OK) != 0)
-		|| (w && access(path, W_OK) != 0)
-		|| (x && access(path, X_OK) != 0))
-	{
-		write(2, "pipex : ", 8);
-		write(2, path, ft_strlen(path));
-		ft_puterror(13);
-	}
+	free(commandsbegin);
 }
 
 char	*ft_strdup(const char *s)

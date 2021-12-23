@@ -18,6 +18,7 @@ endef
 
 SRCS		= $(addprefix srcs/, \
 			  	utils.c \
+				parse.c \
 			  	main.c \
 				)
 
