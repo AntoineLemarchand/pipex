@@ -17,7 +17,9 @@ define removing
 endef
 
 SRCS		= $(addprefix srcs/, \
+			  	ft_split.c \
 			  	utils.c \
+				free.c \
 				parse.c \
 			  	main.c \
 				)

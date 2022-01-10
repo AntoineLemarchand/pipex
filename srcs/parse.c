@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/24 00:06:09 by antoine           #+#    #+#             */
-/*   Updated: 2021/12/24 00:29:50 by antoine          ###   ########.fr       */
+/*   Created: 2021/12/24 00:47:38 by alemarch          #+#    #+#             */
+/*   Updated: 2021/12/26 19:20:46 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_fileisvalid(char *path, int r, int w, int x)
 		write(2, "pipex: ", 7);
 		write(2, path, ft_strlen(path));
 		write(2, ": ", 2);
-		write(1, strerror(13), ft_strlen(strerror(13)));
+		write(1, strerror(2), ft_strlen(strerror(2)));
 		write(1, "\n", 1);
 		exit(13);
 	}

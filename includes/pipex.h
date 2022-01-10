@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: antoine <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/12/20 20:27:48 by antoine           #+#    #+#             */
-/*   Updated: 2021/12/24 00:27:08 by antoine          ###   ########.fr       */
+/*   Created: 2021/12/24 00:47:14 by alemarch          #+#    #+#             */
+/*   Updated: 2021/12/26 19:20:21 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,4 +23,8 @@ char	*ft_strdup(const char *s);
 int		ft_strlen(const char *s);
 char	**ft_loadcommands(int ac, char **av);
 void	ft_freecommands(char **commands);
+char	*ft_strjoin(char *s1, char *s2);
+char	**ft_split(char const *s, char c);
+void	ft_freesplit(char **split);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 #endif
