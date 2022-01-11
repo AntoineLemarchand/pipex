@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:46:47 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/10 16:55:43 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/11 14:52:25 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*ft_addpath(char *path, char *command)
 	char	*ret;
 
 	temp = ft_strjoin(path, "/");
-	ret = ft_strjoin(temp, command);
+	ret = ft_joincommand(temp, command);
 	free(temp);
 	if (access(ret, F_OK | X_OK) == 0)
 		return (ret);
@@ -30,7 +30,7 @@ static char	*ft_addpath(char *path, char *command)
 	}
 }
 
-char	*ft_getpath(char *command, char **env)
+static char	*ft_getpath(char *command, char **env)
 {
 	char	**path;
 	char	*curr;
@@ -54,23 +54,52 @@ char	*ft_getpath(char *command, char **env)
 	return (curr);
 }
 
+static int	ft_exec(char *action, char **env)
+{
+	char	*command;
+	char	**av;
+	int		ret;
+
+	av = ft_split(action, ' ');
+	if (!av)
+		return (1);
+	command = ft_getpath(action, env);
+	if (!command)
+	{
+		ft_freesplit(av);
+		return (1);
+	}
+	ret = execve(command, av, env);
+	free(command);
+	ft_freesplit(av);
+	return (ret);
+}
+/*
+static int	*ft_dopipe(int	fd1, int	fd2)
+{
+	int	pipe[2];
+
+	pipe = pipe(pipe);
+	close(pipe[0]);
+	dup2(pipe[0], fd1);
+	close(pipe[1]);
+	dup2(pipe[1], fd2);
+
+	return (pipe);
+}
+*/
+
 int	main(int ac, char **av, char **env)
 {
-	char	**commands;
-	char	*path;
+	int		output;
 
 	if (ac < 5)
 		return (ft_puterror(22));
 	ft_fileisvalid(av[1], 1, 0, 0);
 	ft_fileisvalid(av[ac - 1], 0, 1, 0);
-	commands = ft_loadcommands(ac, av);
-	if (!commands)
-		return (ft_puterror(12));
-	path = ft_getpath(av[2], env);
-	printf("%s\n", path);
-	free(path);
-	/* ______ WIP ______ */
-	ft_freecommands(commands);
-	/* ______ WIP ______ */
+	output = open(av[ac - 1], O_CREAT | O_WRONLY);
+	if (output == -1)
+		ft_puterror(13);
+	ft_exec(av[2], env);
 	return (0);
 }
