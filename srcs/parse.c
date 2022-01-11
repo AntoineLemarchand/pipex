@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:47:38 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/11 14:50:55 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/11 16:53:04 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_joincommand(char *s1, char *s2)
 			i++;
 		}
 		i = 0;
-		while (s2[i] != ' ')
+		while (s2[i] && s2[i] != ' ')
 			ret[s1_len++] = s2[i++];
 		ret[s1_len] = '\0';
 		return (ret);
