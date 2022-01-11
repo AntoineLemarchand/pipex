@@ -18,6 +18,7 @@ endef
 
 SRCS		= $(addprefix srcs/, \
 			  	ft_split.c \
+				pipe.c \
 			  	utils.c \
 				free.c \
 				parse.c \
@@ -32,7 +33,7 @@ RM			= rm -f
 
 CC			= cc
 
-CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror -g
 
 CPPFLAGS	= -Iincludes
 

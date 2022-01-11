@@ -6,102 +6,65 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:46:47 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/11 15:01:59 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/11 18:27:25 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
-#include<stdio.h>
 
-static char	*ft_addpath(char *path, char *command)
+void	ft_simpleredir(int ac, char **av, char **env)
 {
-	char	*temp;
-	char	*ret;
+	int	i;
+	int	input;
+	int	output;
 
-	temp = ft_strjoin(path, "/");
-	ret = ft_joincommand(temp, command);
-	free(temp);
-	if (access(ret, F_OK | X_OK) == 0)
-		return (ret);
-	else
+	i = 2;
+	input = open(av[1], O_CREAT | O_WRONLY);
+	output = open(av[ac - 1], O_CREAT | O_WRONLY);
+	if (output == -1 || input == -1)
+		ft_puterror(13);
+	if (dup2(input, 0) == -1 || dup2(output, 1) == -1)
 	{
-		free(ret);
-		return (NULL);
+		close(input);
+		close(output);
+		ft_puterror(77);
 	}
+	while (i < ac - 2)
+		ft_fork(input, av[i++], env);
+	ft_exec(av[i], env);
 }
 
-static char	*ft_getpath(char *command, char **env)
+void	ft_appendredir(int ac, char **av, char **env)
 {
-	char	**path;
-	char	*curr;
-	int		i;
+	int	i;
+	int	input;
+	int	output;
 
-	while (*env && ft_strncmp(*env, "PATH=", 5))
-		env++;
-	if (!env)
-		return (NULL);
-	path = ft_split(*env + 5, ':');
-	curr = NULL;
-	i = 0;
-	while (path[i] && !curr)
+	i = 3;
+	input = open(av[1], O_CREAT | O_APPEND | O_WRONLY);
+	output = open(av[ac - 1], O_CREAT | O_APPEND | O_WRONLY);
+	if (output == -1 || input == -1)
+		ft_puterror(13);
+	if (dup2(input, 0) == -1 || dup2(output, 1) == -1)
 	{
-		curr = ft_addpath(path[i], command);
-		i++;
+		close(input);
+		close(output);
+		ft_puterror(77);
 	}
-	ft_freesplit(path);
-	if (!curr)
-		return (NULL);
-	return (curr);
+	while (i < ac - 2)
+		ft_fork(input, av[i++], env);
+	ft_exec(av[i], env);
 }
-
-static int	ft_exec(char *action, char **env)
-{
-	char	*command;
-	char	**av;
-	int		ret;
-
-	av = ft_split(action, ' ');
-	if (!av)
-		return (1);
-	command = ft_getpath(action, env);
-	if (!command)
-	{
-		ft_freesplit(av);
-		return (1);
-	}
-	ret = execve(command, av, env);
-	free(command);
-	ft_freesplit(av);
-	return (ret);
-}
-/*
-static int	*ft_dopipe(int	fd1, int	fd2)
-{
-	int	pipe[2];
-
-	pipe = pipe(pipe);
-	close(pipe[0]);
-	dup2(pipe[0], fd1);
-	close(pipe[1]);
-	dup2(pipe[1], fd2);
-
-	return (pipe);
-}
-*/
 
 int	main(int ac, char **av, char **env)
 {
-	int		output;
-
 	if (ac < 5)
 		return (ft_puterror(22));
 	ft_fileisvalid(av[1], 1, 0, 0);
 	ft_fileisvalid(av[ac - 1], 0, 1, 0);
-	output = open(av[ac - 1], O_CREAT | O_WRONLY);
-	if (output == -1)
-		ft_puterror(13);
-	dup2(output, 1);
-	if (ft_exec(av[2], env))
-		ft_puterror(95);
+	if (!ft_strncmp(av[1], "here_doc\0", 9))
+		ft_appendredir(ac, av, env);
+	else
+		ft_simpleredir(ac, av, env);
 	return (0);
 }
