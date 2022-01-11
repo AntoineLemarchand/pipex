@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:46:47 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/11 14:52:25 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/11 15:01:59 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int	main(int ac, char **av, char **env)
 	output = open(av[ac - 1], O_CREAT | O_WRONLY);
 	if (output == -1)
 		ft_puterror(13);
-	ft_exec(av[2], env);
+	dup2(output, 1);
+	if (ft_exec(av[2], env))
+		ft_puterror(95);
 	return (0);
 }
