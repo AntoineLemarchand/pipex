@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:46:47 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/11 18:27:25 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/13 10:25:39 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,8 @@ void	ft_simpleredir(int ac, char **av, char **env)
 	int	output;
 
 	i = 2;
-	input = open(av[1], O_CREAT | O_WRONLY);
-	output = open(av[ac - 1], O_CREAT | O_WRONLY);
+	input = open(av[1], O_RDONLY);
+	output = open(av[ac - 1], O_WRONLY | O_TRUNC | O_CREAT, 0644);
 	if (output == -1 || input == -1)
 		ft_puterror(13);
 	if (dup2(input, 0) == -1 || dup2(output, 1) == -1)
