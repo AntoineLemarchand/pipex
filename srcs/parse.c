@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:47:38 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/11 18:50:05 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/17 12:35:50 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	ft_fileisvalid(char *path, int r, int w, int x)
 		write(2, "pipex: ", 7);
 		write(2, path, ft_strlen(path));
 		write(2, ": ", 2);
-		write(1, strerror(13), ft_strlen(strerror(13)));
-		write(1, "\n", 1);
+		write(2, strerror(13), ft_strlen(strerror(13)));
+		write(2, "\n", 1);
 		exit(13);
 	}
 }

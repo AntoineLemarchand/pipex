@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:59:11 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/13 10:23:28 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/17 14:12:04 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,28 @@ static char	*ft_getpath(char *command, char **env)
 int	ft_fork(int fd, char *action, char **env)
 {
 	int		link[2];
-	pid_t	pid;
+	pid_t	parent;
 
 	pipe(link);
-	pid = fork();
-	if (pid)
+	parent = fork();
+	if (!parent)
 	{
-		close(link[1]);
-		if (dup2(link[0], 0) == -1)
-			return (1);
-		waitpid(pid, NULL, 0);
-	}
-	else
-	{
-		close(link[0]);
-		dup2(link[1], 1);
 		if (fd == 1)
 			return (1);
 		else
+		{
+			close(link[0]);
+			if (dup2(link[1], 1) == -1)
+				return (1);
 			ft_exec(action, env);
+		}
+	}
+	else
+	{
+		waitpid(parent, NULL, 0);
+		if (dup2(link[0], 0) == -1)
+			return (1);
+		close(link[1]);
 	}
 	return (0);
 }
@@ -83,7 +86,6 @@ int	ft_exec(char *action, char **env)
 {
 	char	*command;
 	char	**av;
-	int		ret;
 
 	av = ft_split(action, ' ');
 	if (!av)
@@ -94,8 +96,8 @@ int	ft_exec(char *action, char **env)
 		ft_freesplit(av);
 		return (1);
 	}
-	ret = execve(command, av, env);
+	execve(command, av, env);
 	free(command);
 	ft_freesplit(av);
-	return (ret);
+	return (0);
 }

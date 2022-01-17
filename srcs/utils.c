@@ -6,17 +6,22 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:47:27 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/11 14:47:57 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/17 13:08:40 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-int	ft_puterror(int errno)
+int	ft_puterror(int errno, int iscommand)
 {
 	write(1, "pipex: ", 7);
-	write(1, strerror(errno), ft_strlen(strerror(errno)));
-	write(1, "\n", 1);
+	if (!iscommand)
+	{
+		write(2, strerror(errno), ft_strlen(strerror(errno)));
+		write(2, "\n", 1);
+	}
+	else
+		write(2, "command not found\n", 18);
 	exit(errno);
 }
 
