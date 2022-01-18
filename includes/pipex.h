@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:47:14 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/17 13:06:43 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:25:36 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include<sys/wait.h>
 
 int		ft_puterror(int errno, int iscommand);
-void	ft_fileisvalid(char *path, int read, int write, int exec);
+void	ft_fileisvalid(char *path, int exist, int read);
 char	*ft_strdup(const char *s);
 int		ft_strlen(const char *s);
 char	**ft_loadcommands(int ac, char **av);

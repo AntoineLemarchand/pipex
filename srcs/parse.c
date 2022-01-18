@@ -6,26 +6,34 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:47:38 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/17 12:35:50 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:25:26 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "pipex.h"
 
-void	ft_fileisvalid(char *path, int r, int w, int x)
+void	ft_fileisvalid(char *path, int f, int r)
 {
-	if (access(path, F_OK) != 0)
-		return ;
-	else if ((r && access(path, R_OK) != 0)
-		|| (w && access(path, W_OK) != 0)
-		|| (x && access(path, X_OK) != 0))
+	if (f)
 	{
-		write(2, "pipex: ", 7);
-		write(2, path, ft_strlen(path));
-		write(2, ": ", 2);
-		write(2, strerror(13), ft_strlen(strerror(13)));
-		write(2, "\n", 1);
-		exit(13);
+		if (access(path, F_OK) != 0)
+		{
+			write(2, "pipex: ", 7);
+			write(2, path, ft_strlen(path));
+			write(2, ": ", 2);
+			write(2, strerror(2), ft_strlen(strerror(2)));
+			write(2, "\n", 1);
+			exit(2);
+		}
+		else if (r && access(path, R_OK) != 0)
+		{
+			write(2, "pipex: ", 7);
+			write(2, path, ft_strlen(path));
+			write(2, ": ", 2);
+			write(2, strerror(13), ft_strlen(strerror(13)));
+			write(2, "\n", 1);
+			exit(13);
+		}
 	}
 }
 

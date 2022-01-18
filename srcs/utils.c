@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/24 00:47:27 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/17 13:08:40 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:20:44 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_puterror(int errno, int iscommand)
 {
-	write(1, "pipex: ", 7);
+	write(2, "pipex: ", 7);
 	if (!iscommand)
 	{
 		write(2, strerror(errno), ft_strlen(strerror(errno)));

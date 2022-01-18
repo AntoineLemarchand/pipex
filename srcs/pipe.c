@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:59:11 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/17 14:12:04 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:26:24 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static char	*ft_getpath(char *command, char **env)
 	char	*curr;
 	int		i;
 
+	if (access(command, F_OK | X_OK) == 0)
+		return (command);
 	while (*env && ft_strncmp(*env, "PATH=", 5))
 		env++;
 	if (!env)
@@ -53,35 +55,6 @@ static char	*ft_getpath(char *command, char **env)
 	return (curr);
 }
 
-int	ft_fork(int fd, char *action, char **env)
-{
-	int		link[2];
-	pid_t	parent;
-
-	pipe(link);
-	parent = fork();
-	if (!parent)
-	{
-		if (fd == 1)
-			return (1);
-		else
-		{
-			close(link[0]);
-			if (dup2(link[1], 1) == -1)
-				return (1);
-			ft_exec(action, env);
-		}
-	}
-	else
-	{
-		waitpid(parent, NULL, 0);
-		if (dup2(link[0], 0) == -1)
-			return (1);
-		close(link[1]);
-	}
-	return (0);
-}
-
 int	ft_exec(char *action, char **env)
 {
 	char	*command;
@@ -94,10 +67,39 @@ int	ft_exec(char *action, char **env)
 	if (!command)
 	{
 		ft_freesplit(av);
-		return (1);
+		ft_puterror(127, 1);
 	}
 	execve(command, av, env);
 	free(command);
 	ft_freesplit(av);
+	return (0);
+}
+
+int	ft_fork(int fd, char *action, char **env)
+{
+	int		link[2];
+	pid_t	process;
+
+	pipe(link);
+	process = fork();
+	if (!process)
+	{
+		if (fd != 1)
+		{
+			close(link[0]);
+			if (dup2(link[1], 1) == -1)
+				return (1);
+			ft_exec(action, env);
+			exit(0);
+		}
+		return (1);
+	}
+	else
+	{
+		waitpid(process, NULL, 0);
+		if (dup2(link[0], 0) == -1)
+			return (1);
+		close(link[1]);
+	}
 	return (0);
 }
