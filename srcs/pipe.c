@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:59:11 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/18 10:26:24 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/18 10:51:41 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,11 @@ int	ft_exec(char *action, char **env)
 	command = ft_getpath(action, env);
 	if (!command)
 	{
+		write(2, "pipex: ", 7);
+		write(2, *av, ft_strlen(*av));
+		write(2, ": command not found\n", 20);
 		ft_freesplit(av);
-		ft_puterror(127, 1);
+		exit(127);
 	}
 	execve(command, av, env);
 	free(command);
