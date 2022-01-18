@@ -6,7 +6,7 @@
 /*   By: alemarch <alemarch@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/11 17:59:11 by alemarch          #+#    #+#             */
-/*   Updated: 2022/01/18 10:51:41 by alemarch         ###   ########.fr       */
+/*   Updated: 2022/01/18 11:26:20 by alemarch         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_fork(int fd, char *action, char **env)
 	}
 	else
 	{
-		waitpid(process, NULL, 0);
+		waitpid(process, NULL, WNOHANG);
 		if (dup2(link[0], 0) == -1)
 			return (1);
 		close(link[1]);
