@@ -5,8 +5,8 @@ define compiling
 endef
 
 define finishing
-	@echo -n "$(shell tput bold)$(shell tput setaf 2)Compiling $1 $(shell tput sgr0)"
-	@$(CC) $(CFLAGS) $(CPPFLAGS) $2 -o $(NAME)
+	@echo -n "$(shell tput bold)$(shell tput setaf 2)Finishing $1 $(shell tput sgr0)"
+	@$(CC) $(CFLAGS) $(CPPFLAGS) $2 -o $1
 	@echo "$(shell tput bold)$(shell tput setaf 2)√$(shell tput sgr0)"
 endef
 
@@ -25,18 +25,8 @@ SRCS		= $(addprefix srcs/, \
 			  	main.c \
 				)
 
-BONUS		= $(addprefix srcs/, \
-			  	ft_split.c \
-				pipe.c \
-			  	utils.c \
-				free.c \
-				parse.c \
-			  	main_bonus.c \
-			  	)
-
 OBJS		= $(SRCS:.c=.o)
 
-BONUS_OBJS	= $(BONUS:.c=.o)
 
 NAME		= pipex
 
@@ -56,8 +46,7 @@ ${NAME}:	$(OBJS)
 
 all:		$(NAME)
 
-bonus:		$(BONUS_OBJS)
-			$(call finishing,$(NAME),$(BONUS_OBJS))
+bonus:		all
 
 clean:	
 			$(call removing,$(OBJS))
