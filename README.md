@@ -24,3 +24,5 @@ should act the same as
 ```
 < infile ls -l | wc -l > outfile
 ```
+## Grade
+[![jaeskim's 42Project Score](https://badge42.herokuapp.com/api/project/alemarch/pipex)](https://github.com/JaeSeoKim/badge42)
